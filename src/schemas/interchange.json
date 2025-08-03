@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hybrid-thought.com/pisa/interchange",
+
+  "title": "PISA Process Interchange Representation",
+  "type": "object",
+  "required": ["meta", "steps"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "description": "Metadata about a process",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the process"
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the process"
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the process"
+        }
+      },
+      "additionalProperties": {
+        "type": "string",
+        "description": "Additional metadata associated with the process"
+      }
+    },
+    "steps": {
+      "type": "object",
+      "description": "The steps in the process",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["meta", "states"],
+        "properties": {
+          "meta": {
+            "type": "object",
+            "description": "Metadata about a process step",
+            "required": ["name"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the process step"
+              },
+              "description": {
+                "type": "string",
+                "description": "A brief description of the process step"
+              },
+              "version": {
+                "type": "string",
+                "description": "The version of the process step"
+              }
+            },
+            "additionalProperties": {
+              "type": "string",
+              "description": "Additional metadata associated with the process step"
+            }
+          },
+          "parameters": {
+            "type": "object",
+            "description": "The parameter interface for the step",
+            "additionalProperties": {
+              "type": "object",
+              "description": "The declaration of the parameter",
+              "required": ["type", "mode"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The type of the parameter"
+                },
+                "mode": {
+                  "type": "string",
+                  "description": "The mode of the parameter"
+                },
+                "default": {
+                  "type": "string",
+                  "description": "The default value of the parameter"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "states": {
+            "type": "object",
+            "description": "The steates of the step",
+            "additionalProperties": {
+              "type": "array",
+              "description": "The sequence of operations to be performed by the step in response to an event",
+              "items": {
+                "type": "object",
+                "description": "An operation with arguments",
+                "additionalProperties": {
+                  "type": "object",
+                  "description": "The arguments to the operation",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "maxProperties": 1
+              },
+              "minItems": 1
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
