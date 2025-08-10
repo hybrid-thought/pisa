@@ -4,7 +4,7 @@
 
   "title": "PISA Process Interchange Representation",
   "type": "object",
-  "required": ["meta", "steps"],
+  "required": ["meta", "entry", "steps"],
   "properties": {
     "meta": {
       "type": "object",
@@ -29,84 +29,114 @@
         "description": "Additional metadata associated with the process"
       }
     },
+    "entry": {
+      "type": "array",
+      "description": "The entry points of the process",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z].*$",
+        "description": "The name of an entry point"
+      },
+      "minItems": 1
+    },
     "steps": {
       "type": "object",
       "description": "The steps in the process",
-      "additionalProperties": {
-        "type": "object",
-        "required": ["meta", "states"],
-        "properties": {
-          "meta": {
-            "type": "object",
-            "description": "Metadata about a process step",
-            "required": ["name"],
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "The name of the process step"
+      "patternProperties": {
+        "^[a-zA-Z].*$": {
+          "type": "object",
+          "required": ["meta", "states"],
+          "properties": {
+            "meta": {
+              "type": "object",
+              "description": "Metadata about a process step",
+              "required": ["name"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the process step"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "A brief description of the process step"
+                },
+                "version": {
+                  "type": "string",
+                  "description": "The version of the process step"
+                }
               },
-              "description": {
+              "additionalProperties": {
                 "type": "string",
-                "description": "A brief description of the process step"
-              },
-              "version": {
-                "type": "string",
-                "description": "The version of the process step"
+                "description": "Additional metadata associated with the process step"
               }
             },
-            "additionalProperties": {
-              "type": "string",
-              "description": "Additional metadata associated with the process step"
-            }
-          },
-          "parameters": {
-            "type": "object",
-            "description": "The parameter interface for the step",
-            "additionalProperties": {
+            "parameters": {
               "type": "object",
-              "description": "The declaration of the parameter",
-              "required": ["type", "mode"],
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "description": "The type of the parameter"
-                },
-                "mode": {
-                  "type": "string",
-                  "description": "The mode of the parameter"
-                },
-                "default": {
-                  "type": "string",
-                  "description": "The default value of the parameter"
+              "description": "The parameter interface for the step",
+              "patternProperties": {
+                "^[a-zA-Z].*$": {
+                  "type": "object",
+                  "description": "The declaration of the parameter",
+                  "required": ["type", "mode"],
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "The type of the parameter"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "description": "The mode of the parameter"
+                    },
+                    "default": {
+                      "type": "string",
+                      "description": "The default value of the parameter"
+                    }
+                  }
                 }
               },
               "additionalProperties": false
-            }
-          },
-          "states": {
-            "type": "object",
-            "description": "The steates of the step",
-            "additionalProperties": {
-              "type": "array",
-              "description": "The sequence of operations to be performed by the step in response to an event",
-              "items": {
-                "type": "object",
-                "description": "An operation with arguments",
-                "additionalProperties": {
-                  "type": "object",
-                  "description": "The arguments to the operation",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
-                },
-                "maxProperties": 1
+            },
+            "states": {
+              "type": "object",
+              "description": "The states of the step, with the key being the triggering event",
+              "patternProperties": {
+                "^[a-zA-Z].*": {
+                  "type": "array",
+                  "description": "The sequence of operations to be performed by the step in response to an event",
+                  "items": {
+                    "type": "object",
+                    "description": "An operation with arguments",
+                    "propertyNames": {
+                      "$comment": "Enum of operation names",
+                      "enum": [""]
+                    },
+                    "patternProperties": {
+                      "^[a-zA-Z].*$": {
+                        "type": "object",
+                        "description": "The arguments to the operation",
+                        "patternProperties": {
+                          "^[a-zA-Z].*$": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "additionalProperties": false,
+                    "minProperties": 1,
+                    "maxProperties": 1
+                  },
+                  "minItems": 1
+                }
               },
-              "minItems": 1
-            }
-          }
-        },
-        "additionalProperties": false
+              "additionalProperties": false
+            },
+            "additionalProperties": false
+          },
+          "additionalProperties": false
+        }
       }
     }
-  }
+  },
+  "additionalProperties": false
 }
