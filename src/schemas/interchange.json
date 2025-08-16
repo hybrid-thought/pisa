@@ -91,51 +91,71 @@
                       "type": "string",
                       "description": "The default value of the parameter"
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               },
               "additionalProperties": false
             },
             "states": {
               "type": "object",
-              "description": "The states of the step, with the key being the triggering event",
+              "description": "The states of the step, with the key being the step name",
               "patternProperties": {
                 "^[a-zA-Z].*": {
-                  "type": "array",
-                  "description": "The sequence of operations to be performed by the step in response to an event",
-                  "items": {
-                    "type": "object",
-                    "description": "An operation with arguments",
-                    "propertyNames": {
-                      "$comment": "Enum of operation names",
-                      "enum": [""]
-                    },
-                    "patternProperties": {
-                      "^[a-zA-Z].*$": {
-                        "type": "object",
-                        "description": "The arguments to the operation",
-                        "patternProperties": {
-                          "^[a-zA-Z].*$": {
-                            "type": "string"
-                          }
-                        },
-                        "additionalProperties": false
-                      }
-                    },
-                    "additionalProperties": false,
-                    "minProperties": 1,
-                    "maxProperties": 1
+                  "type": "object",
+                  "description": "The events that the state responds to",
+                  "patternProperties": {
+                    "^[a-zA-Z].*": {
+                      "type": "object",
+                      "description": "The guard predicates, must include atleast 'true'",
+                      "patternProperties": {
+                        "^[a-zA-Z].*": {
+                          "type": "array",
+                          "description": "The sequence of operations to be performed by the step in response to an event",
+                          "items": {
+                            "type": "object",
+                            "description": "An operation with arguments",
+                            "propertyNames": {
+                              "$comment": "Enum of operation names",
+                              "enum": [""]
+                            },
+                            "patternProperties": {
+                              "^[a-zA-Z].*$": {
+                                "type": "object",
+                                "description": "The arguments to the operation",
+                                "patternProperties": {
+                                  "^[a-zA-Z].*$": {
+                                    "type": "string"
+                                  }
+                                },
+                                "additionalProperties": false
+                              }
+                            },
+                            "additionalProperties": false,
+                            "minProperties": 1,
+                            "maxProperties": 1
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "additionalProperties": false,
+                      "minProperties": 1
+                    }
                   },
-                  "minItems": 1
+                  "additionalProperties": false,
+                  "minProperties": 1
                 }
               },
-              "additionalProperties": false
-            },
-            "additionalProperties": false
+              "additionalProperties": false,
+              "minProperties": 1
+            }
           },
-          "additionalProperties": false
+          "additionalProperties": false,
+          "minProperties": 1
         }
-      }
+      },
+      "additionalProperties": false,
+      "minProperties": 1
     }
   },
   "additionalProperties": false
