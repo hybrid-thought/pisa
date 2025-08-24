@@ -35,17 +35,17 @@
       "items": {
         "type": "string",
         "pattern": "^[a-zA-Z].*$",
-        "description": "The name of an entry point"
+        "description": "The step id of an entry point"
       },
       "minItems": 1
     },
     "steps": {
       "type": "object",
-      "description": "The steps in the process",
+      "description": "The steps in the process, with the keys as the step ids.",
       "patternProperties": {
         "^[a-zA-Z].*$": {
           "type": "object",
-          "required": ["meta", "states"],
+          "required": ["meta", "states", "entry"],
           "properties": {
             "meta": {
               "type": "object",
@@ -99,9 +99,9 @@
             },
             "states": {
               "type": "object",
-              "description": "The states of the step, with the key being the step name",
+              "description": "The states of the step, with the keys being the state names. Internal state names may be prefixed with an underscore",
               "patternProperties": {
-                "^[a-zA-Z].*": {
+                "^_?[a-zA-Z].*": {
                   "type": "object",
                   "description": "The events that the state responds to",
                   "patternProperties": {
@@ -148,6 +148,11 @@
               },
               "additionalProperties": false,
               "minProperties": 1
+            },
+            "entry": {
+              "type": "string",
+              "pattern": "^_?[a-zA-Z].*",
+              "description": "The initial state for the step."
             }
           },
           "additionalProperties": false,
