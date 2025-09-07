@@ -70,26 +70,27 @@
                 "description": "Additional metadata associated with the process step"
               }
             },
-            "parameters": {
+            "attributes": {
               "type": "object",
-              "description": "The parameter interface for the step",
+              "description": "The attribute interface for the step with the keys being the parameter names, Parameter names may be prefixed with an underscore to indicate that they are internal to the step",
               "patternProperties": {
-                "^[a-zA-Z].*$": {
+                "^_?[a-zA-Z].*$": {
                   "type": "object",
-                  "description": "The declaration of the parameter",
+                  "description": "The declaration of the attribute",
                   "required": ["type", "mode"],
                   "properties": {
                     "type": {
                       "type": "string",
-                      "description": "The type of the parameter"
+                      "description": "The type of the attribute"
                     },
                     "mode": {
                       "type": "string",
-                      "description": "The mode of the parameter"
+                      "enum": ["input", "output", "input-output", "local"],
+                      "description": "The mode of the attribute"
                     },
-                    "default": {
+                    "description": {
                       "type": "string",
-                      "description": "The default value of the parameter"
+                      "description": "A brief description of the attribute"
                     }
                   },
                   "additionalProperties": false
