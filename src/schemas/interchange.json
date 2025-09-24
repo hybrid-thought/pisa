@@ -59,10 +59,6 @@
                 "description": {
                   "type": "string",
                   "description": "A brief description of the process step"
-                },
-                "version": {
-                  "type": "string",
-                  "description": "The version of the process step"
                 }
               },
               "additionalProperties": {
