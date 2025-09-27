@@ -114,7 +114,22 @@
                             "description": "An operation with arguments",
                             "propertyNames": {
                               "$comment": "Enum of operation names",
-                              "enum": [""]
+                              "enum": [
+                                "InstantiateProcess",
+                                "InstantiateStep",
+                                "SendEvent",
+                                "EmptyParameter",
+                                "SplitParameter",
+                                "CopyParameterFrom",
+                                "CopyParameterTo",
+                                "GetParameter",
+                                "PutParameter",
+                                "PostParameter",
+                                "DeleteParameter",
+                                "BeginTransaction",
+                                "CommitTransaction",
+                                "RollbackTransaction"
+                              ]
                             },
                             "patternProperties": {
                               "^[a-zA-Z].*$": {
